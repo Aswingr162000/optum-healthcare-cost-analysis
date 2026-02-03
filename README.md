@@ -141,9 +141,3 @@ Data Analyst Candidate
 
 
 
-If you'd like, I can next help you:
-✅ add screenshots section
-✅ add Power BI dashboard section
-✅ add project badges
-✅ or shorten to 1-page version
-Just tell me 👍

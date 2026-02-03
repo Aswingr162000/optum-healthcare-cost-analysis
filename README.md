@@ -40,6 +40,7 @@ Note: Dataset not included due to size and privacy considerations.
 Please download the CMS synthetic claims dataset separately and place the CSV files in the project folder before running.
 
 Methodology
+
 1️⃣ Data Preparation
 
 Loaded claims & beneficiary data
@@ -134,10 +135,6 @@ Visualizations
 
 
 
-
-Author
-Aswin Kumar G R
-Data Analyst Candidate
 
 
 

@@ -116,6 +116,7 @@ Provider outlier tables
 
 
 ▶️ How to Run
+
 Step 1 – Clone repo
 git clone <repo link>
 
@@ -123,14 +124,12 @@ Step 2 – Install dependencies
 pip install pandas numpy matplotlib
 
 Step 3 – Place CSVs in the same folder
+
 Step 4 – Run notebook
 jupyter notebook Optum_Data_Analyst.ipynb
 
 
-Deliverables
-Python analysis notebook
-Cleaned & engineered datasets
-Visualizations
+
 
 
 

@@ -41,7 +41,7 @@ Please download the CMS synthetic claims dataset separately and place the CSV fi
 
 Methodology
 
-1️⃣ Data Preparation
+1️.Data Preparation
 
 Loaded claims & beneficiary data
 Converted date fields
@@ -49,7 +49,7 @@ Created age variable
 Cleaned provider NPIs
 Removed missing/zero costs
 
-2️⃣ Feature Engineering
+2️. Feature Engineering
 Created:
 
 chronic_combo → illness combinations
@@ -58,7 +58,7 @@ Cost metric:
 cost_per_member = total_cost / unique_members
 
 
-3️⃣ Provider Benchmarking
+3️. Provider Benchmarking
 Aggregation
 Grouped by provider × illness:
 total cost
@@ -84,7 +84,7 @@ number of conditions treated
 
 
 
-4️⃣ Exploratory Analysis
+4️. Exploratory Analysis
 Additional insights:
 
 Chronic count vs cost trend
@@ -115,7 +115,7 @@ Provider outlier tables
 
 
 
-▶️ How to Run
+-> How to Run
 
 Step 1 – Clone repo
 git clone <repo link>

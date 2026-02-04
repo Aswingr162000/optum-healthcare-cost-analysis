@@ -1,139 +1,292 @@
-Healthcare Cost & Provider Benchmarking Analysis
-This project was completed as part of an Optum Data Analyst technical assessment.
-The objective was to analyze Medicare outpatient claims data and evaluate provider cost performance across chronic illnesses using statistical benchmarking and exploratory data analysis.
+1) Objective
 
-Optum Task
-Using the beneficiary and outpatient claims datasets:
-For each provider (AT_PHYSN_NPI) and chronic illness, calculate cost per member
-For each chronic illness, represent the distribution of provider costs
-Evaluate how results change after filtering provider–illness groups with only 1 patient
-Identify providers that are consistently expensive across conditions
-Account for different illness baselines using a standardized comparison approach
+Using the Beneficiary Summary and Outpatient Claims datasets:
 
-Objectives
-This analysis answers:
+Calculate cost per member for each provider (AT_PHYSN_NPI) and chronic illness combination
 
-What conditions drive the highest spending?
-How much variation exists across providers?
-Which providers are outliers vs peers?
-Does cost rise with chronic disease burden?
-Do demographic factors like age affect costs?
+Represent the distribution of provider costs for each chronic illness combination
 
-Tools Used
-Python
-Pandas (data cleaning & aggregation)
-NumPy (numerical operations)
-Matplotlib (visualizations)
-Jupyter Notebook
+Recalculate results after filtering out provider–illness groups with only 1 member
 
+Identify providers that are consistently expensive across illnesses, accounting for different illness baselines (standardization)
 
-Dataset
-Medicare synthetic claims sample:
+2) Repository Contents
+
+Optum_Data_Analyst.ipynb — Main notebook containing:
+
+Data cleaning
+
+Feature engineering (chronic combos, chronic counts, age)
+
+Aggregations and benchmarking
+
+Visualizations (boxplots, trends)
+
+Provider outlier scoring
+
+(Optional) README.md — This file
+
+Note: The datasets are not included in the repository. Please place them locally as described in the “How to Run” section.
+
+3) Dataset Requirements
+
+Synthetic Medicare claims sample:
+
+Required files (place in same folder as the notebook)
 
 DE1_0_2009_Beneficiary_Summary_File_Sample_20.csv
-→ demographics + chronic condition flags
 
 DE1_0_2008_to_2010_Outpatient_Claims_Sample_20.csv
-→ outpatient claims + provider costs
 
-Note: Dataset not included due to size and privacy considerations.
-Please download the CMS synthetic claims dataset separately and place the CSV files in the project folder before running.
+Dataset Notes
 
-Methodology
+Beneficiary file includes demographics + chronic condition indicator flags
 
-1️.Data Preparation
+Outpatient claims file includes claim cost and provider NPI fields
 
-Loaded claims & beneficiary data
-Converted date fields
-Created age variable
-Cleaned provider NPIs
-Removed missing/zero costs
+4) Tools & Libraries Used
 
-2️. Feature Engineering
-Created:
+Python
 
-chronic_combo → illness combinations
-chronic_count → number of conditions
-Cost metric:
+pandas — data loading, joins, groupby aggregations
+
+numpy — numerical operations
+
+matplotlib — charts & formatting
+
+Optional
+
+Power BI dashboard (interactive visuals using engineered outputs)
+
+5) Methodology
+5.1 Data Preparation
+
+Loaded Beneficiary and Outpatient data
+
+Parsed date fields (BENE_BIRTH_DT, BENE_DEATH_DT, CLM_FROM_DT, CLM_THRU_DT)
+
+Created Age from beneficiary birth year (using 2009 as reference year)
+
+Cleaned provider NPI values (handled scientific notation using integer type)
+
+Created a cost variable: cost = CLM_PMT_AMT
+
+Removed zero-cost claims to keep cost metrics meaningful
+
+Dropped missing AT_PHYSN_NPI only for provider benchmarking steps (required for provider-level analysis)
+
+5.2 Feature Engineering
+
+Built chronic condition combination chronic_combo by concatenating all chronic flags = 1
+
+If none → None
+
+If 3+ conditions → Multiple
+
+Built chronic condition count chronic_count = number of chronic flags = 1 for each beneficiary
+
+Merged claims + beneficiary fields using DESYNPUF_ID
+
+5.3 Core Metrics
+
+Total cost by chronic combo
+
+Cost per member by chronic combo
+
 cost_per_member = total_cost / unique_members
 
+Provider × chronic combo benchmarking
 
-3️. Provider Benchmarking
-Aggregation
-Grouped by provider × illness:
-total cost
-unique members
-cost per member
+groupby(chronic_combo, AT_PHYSN_NPI) → total cost, members, cost per member
 
-Distribution Analysis
-Boxplots to visualize provider cost spread
+5.4 Filtering Step (Noise Reduction)
+
+Repeated distribution analysis after filtering out provider–combo groups with only 1 member
+
+This reduces volatility from “single-patient providers” and stabilizes cost estimates.
+
+5.5 Standardized Provider Benchmarking (Z-score)
+
+To compare providers fairly across conditions with different baseline costs, computed:
+
+𝑧
+=
+𝑐
+𝑜
+𝑠
+𝑡
+_
+𝑝
+𝑒
+𝑟
+_
+𝑚
+𝑒
+𝑚
+𝑏
+𝑒
+𝑟
+−
+𝑚
+𝑒
+𝑎
+𝑛
+(
+𝑐
+𝑜
+𝑠
+𝑡
+_
+𝑝
+𝑒
+𝑟
+_
+𝑚
+𝑒
+𝑚
+𝑏
+𝑒
+𝑟
+)
+𝑠
+𝑡
+𝑑
+(
+𝑐
+𝑜
+𝑠
+𝑡
+_
+𝑝
+𝑒
+𝑟
+_
+𝑚
+𝑒
+𝑚
+𝑏
+𝑒
+𝑟
+)
+z=
+std(cost_per_member)
+cost_per_member−mean(cost_per_member)
+	​
 
 
-Stability Filtering
-Removed groups with only 1 patient
+This produces z_within_combo = standardized expensiveness relative to peer providers treating the same illness.
 
-Standardization (fair comparison)
-Used z-score normalization:
-z = (cost − mean) / std
+Then identified consistently expensive providers using:
 
-Provider Scoring
-Identified consistently expensive providers using:
-average z-score
-share of high-cost occurrences
-number of conditions treated
+combos_treated = number of unique combos treated
+
+avg_z = average standardized expensiveness
+
+share_high = share of combos where z > 1 (provider is high-cost vs peers)
+
+6) Results (Objectives Reached)
+✅ Objective 1 — Cost per member by Provider × Chronic Combo
+
+Created prov_combo dataset:
+
+total_cost, members, cost_per_member per (AT_PHYSN_NPI, chronic_combo)
+
+✅ Objective 2 — Distribution of provider costs per chronic combo
+
+Used:
+
+Summary distribution table (mean, median, p90, p95)
+
+Boxplots across top chronic combinations
+
+✅ Objective 3 — Change after filtering provider–combo groups with only 1 member
+
+Created prov_combo_2plus (members > 1)
+
+Produced side-by-side comparison table for All vs 2+ Members
+
+✅ Objective 4 — Identify consistently expensive providers across conditions
+
+Computed z-score within each combo (z_within_combo)
+
+Ranked providers by:
+
+average z-score (avg_z)
+
+share of high-cost occurrences (share_high)
+
+breadth of conditions treated (combos_treated)
+
+7) Additional EDA (Beyond Requirements)
+
+To better explain cost drivers, also explored:
+
+Chronic Count vs Average Cost (trend increases with higher disease burden)
+
+Age Group vs Average Cost
+
+Disease co-occurrence using conditional probabilities (optional enhancement)
+
+8) Summary
+
+This project demonstrates:
+
+End-to-end EDA on healthcare claims data
+
+Feature engineering for chronic conditions
+
+Provider benchmarking with appropriate cleaning/filtering
+
+Standardized comparisons across heterogeneous chronic illness cost baselines
+
+Key takeaways:
+
+Costs rise with greater chronic disease burden
+
+“Multiple” comorbidities drive the largest share of total costs
+
+Provider costs vary widely within the same condition
+
+Filtering out single-member provider groups stabilizes distribution metrics
+
+Z-score benchmarking highlights providers consistently expensive across conditions
+
+9) How to Run
+Option A — Local Jupyter
+
+Clone repo:
+
+git clone <your-repo-link>
+cd <repo-folder>
 
 
+Install dependencies:
 
-4️. Exploratory Analysis
-Additional insights:
-
-Chronic count vs cost trend
-Age group vs cost
-Provider variation across illnesses
-Demographic distributions
-
-
-Key Insights
-
-Costs increase with number of chronic conditions
-Multiple comorbidities drive highest spending
-Significant variation exists between providers treating the same illness
-Removing single-patient providers stabilizes estimates
-Several providers are consistently 3–5+ standard deviations above peers
-Older age groups show higher average costs
-
-
-
-Visualizations Included
-
-
-Cost distribution by condition (boxplots)
-Provider variation plots
-Chronic count vs cost line chart
-Age group vs cost bar chart
-Provider outlier tables
-
-
-
--> How to Run
-
-Step 1 – Clone repo
-git clone <repo link>
-
-Step 2 – Install dependencies
 pip install pandas numpy matplotlib
 
-Step 3 – Place CSVs in the same folder
 
-Step 4 – Run notebook
+Place both CSV files in the same folder as the notebook.
+
+Run notebook:
+
 jupyter notebook Optum_Data_Analyst.ipynb
 
+Option B — Google Colab
 
+Upload notebook to Colab
 
+Upload datasets into Colab session or mount Google Drive
 
+Ensure file paths match your environment
 
+10) References
 
+CMS Synthetic Public Use Files (DE-SynPUF) documentation for variable meaning and coding conventions
 
+General healthcare analytics practices:
 
+Cost per member calculations
 
+Percentiles (P90/P95) for skewed cost distributions
 
+Z-score standardization for peer comparison

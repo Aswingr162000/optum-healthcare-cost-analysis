@@ -125,13 +125,13 @@ share_high = share of combos where z > 1 (provider is high-cost vs peers)
 
 6) Results (Objectives Reached)
    
-✅ Objective 1 — Cost per member by Provider × Chronic Combo
+ Objective 1 — Cost per member by Provider × Chronic Combo
 
 Created prov_combo dataset:
 
 total_cost, members, cost_per_member per (AT_PHYSN_NPI, chronic_combo)
 
-✅ Objective 2 — Distribution of provider costs per chronic combo
+ Objective 2 — Distribution of provider costs per chronic combo
 
 Used:
 
@@ -139,13 +139,13 @@ Summary distribution table (mean, median, p90, p95)
 
 Boxplots across top chronic combinations
 
-✅ Objective 3 — Change after filtering provider–combo groups with only 1 member
+ Objective 3 — Change after filtering provider–combo groups with only 1 member
 
 Created prov_combo_2plus (members > 1)
 
 Produced side-by-side comparison table for All vs 2+ Members
 
-✅ Objective 4 — Identify consistently expensive providers across conditions
+ Objective 4 — Identify consistently expensive providers across conditions
 
 Computed z-score within each combo (z_within_combo)
 

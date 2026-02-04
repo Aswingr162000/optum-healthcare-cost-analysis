@@ -191,33 +191,7 @@ Filtering out single-member provider groups stabilizes distribution metrics
 
 Z-score benchmarking highlights providers consistently expensive across conditions
 
-9) How to Run
-Option A — Local Jupyter
 
-Clone repo:
-
-git clone <your-repo-link>
-cd <repo-folder>
-
-
-Install dependencies:
-
-pip install pandas numpy matplotlib
-
-
-Place both CSV files in the same folder as the notebook.
-
-Run notebook:
-
-jupyter notebook Optum_Data_Analyst.ipynb
-
-Option B — Google Colab
-
-Upload notebook to Colab
-
-Upload datasets into Colab session or mount Google Drive
-
-Ensure file paths match your environment
 
 10) References
 

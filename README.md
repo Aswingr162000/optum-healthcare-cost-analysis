@@ -109,70 +109,9 @@ This reduces volatility from “single-patient providers” and stabilizes cost 
 
 To compare providers fairly across conditions with different baseline costs, computed:
 
-𝑧
-=
-𝑐
-𝑜
-𝑠
-𝑡
-_
-𝑝
-𝑒
-𝑟
-_
-𝑚
-𝑒
-𝑚
-𝑏
-𝑒
-𝑟
-−
-𝑚
-𝑒
-𝑎
-𝑛
-(
-𝑐
-𝑜
-𝑠
-𝑡
-_
-𝑝
-𝑒
-𝑟
-_
-𝑚
-𝑒
-𝑚
-𝑏
-𝑒
-𝑟
-)
-𝑠
-𝑡
-𝑑
-(
-𝑐
-𝑜
-𝑠
-𝑡
-_
-𝑝
-𝑒
-𝑟
-_
-𝑚
-𝑒
-𝑚
-𝑏
-𝑒
-𝑟
-)
-z=
-std(cost_per_member)
-cost_per_member−mean(cost_per_member)
-	​
-
+𝑧 = cost_per_member − mean(cost_per_member)
+    ---------------------------------------
+             std(cost_per_member)
 
 This produces z_within_combo = standardized expensiveness relative to peer providers treating the same illness.
 
@@ -283,10 +222,4 @@ Ensure file paths match your environment
 
 CMS Synthetic Public Use Files (DE-SynPUF) documentation for variable meaning and coding conventions
 
-General healthcare analytics practices:
 
-Cost per member calculations
-
-Percentiles (P90/P95) for skewed cost distributions
-
-Z-score standardization for peer comparison

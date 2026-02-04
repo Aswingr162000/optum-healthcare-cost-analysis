@@ -59,6 +59,7 @@ Optional
 Power BI dashboard (interactive visuals using engineered outputs)
 
 5) Methodology
+   
 5.1 Data Preparation
 
 Loaded Beneficiary and Outpatient data

@@ -109,10 +109,9 @@ This reduces volatility from “single-patient providers” and stabilizes cost 
 
 To compare providers fairly across conditions with different baseline costs, computed:
 
-𝑧 = cost_per_member − mean(cost_per_member)
-    ---------------------------------------
-             std(cost_per_member)
-
+𝑧 = (cost_per_member − mean(cost_per_member)) / std(cost_per_member)
+   
+             
 This produces z_within_combo = standardized expensiveness relative to peer providers treating the same illness.
 
 Then identified consistently expensive providers using:

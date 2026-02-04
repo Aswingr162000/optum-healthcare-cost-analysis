@@ -193,8 +193,4 @@ Z-score benchmarking highlights providers consistently expensive across conditio
 
 
 
-10) References
-
-CMS Synthetic Public Use Files (DE-SynPUF) documentation for variable meaning and coding conventions
-
 
